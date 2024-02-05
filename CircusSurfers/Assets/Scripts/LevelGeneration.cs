@@ -6,10 +6,8 @@ public class LevelGeneration : MonoBehaviour
 {
     public GameObject player;
     public GameObject startNode;
-    public Transform startNodePos;
     public float minimumDistanceToLastNode;
     GameObject lastSpawnedNode;
-    float distanceBetweenPlayerAndLastNode;
 
     private void Update()
     {
@@ -23,14 +21,15 @@ public class LevelGeneration : MonoBehaviour
             Debug.LogWarning("Start node is not assigned!");
             return;
         }
-
-        if (lastSpawnedNode == null)
+        else if (lastSpawnedNode == null)
         {
-           lastSpawnedNode = Instantiate(startNode, startNodePos);
+            lastSpawnedNode = startNode;
         }
-        else if (Vector3.Distance(player.transform.position, lastSpawnedNode.transform.position) < minimumDistanceToLastNode)
+
+        if (Vector3.Distance(player.transform.position, lastSpawnedNode.transform.position) < minimumDistanceToLastNode)
         {
-            int _index = Random.Range(0, lastSpawnedNode.GetComponent<LevelNode>().possibleNextNodes.Length);
+            int _index = Random.Range(0, lastSpawnedNode.GetComponent<LevelNode>().possibleNextNodes.Length - 1);
+            lastSpawnedNode = Instantiate(lastSpawnedNode.GetComponent<LevelNode>().possibleNextNodes[_index], lastSpawnedNode.GetComponent<LevelNode>().nextNodeLocation);
         }
     }
 }
