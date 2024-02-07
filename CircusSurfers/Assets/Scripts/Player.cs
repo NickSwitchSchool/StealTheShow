@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     bool gameOver;
     float gravity;
     int score;
+    public GameObject gameOverCanvas;
 
     private void Start()
     {
@@ -88,6 +89,7 @@ public class Player : MonoBehaviour
         {
             this.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
             gameOver = true;
+            gameOverCanvas.SetActive(true);
         }
     }
 
