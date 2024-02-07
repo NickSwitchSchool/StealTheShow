@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Death
+  - Point
   layers:
   - Default
   - TransparentFX

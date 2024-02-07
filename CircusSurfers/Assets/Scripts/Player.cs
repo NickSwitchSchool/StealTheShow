@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     bool isOnRightPath;
     bool gameOver;
     float gravity;
+    int score;
 
     private void Start()
     {
@@ -87,6 +88,15 @@ public class Player : MonoBehaviour
         {
             this.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
             gameOver = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.transform.gameObject.CompareTag("Point"))
+        {
+            score++;
+            Destroy(collision.transform.gameObject);
         }
     }
 }
