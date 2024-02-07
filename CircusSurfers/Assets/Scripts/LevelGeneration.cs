@@ -7,7 +7,7 @@ public class LevelGeneration : MonoBehaviour
     public GameObject player;
     public GameObject startNode;
     public float minimumDistanceToLastNode;
-    GameObject lastSpawnedNode;
+    public GameObject lastSpawnedNode;
 
     private void Update()
     {
@@ -28,8 +28,17 @@ public class LevelGeneration : MonoBehaviour
 
         if (Vector3.Distance(player.transform.position, lastSpawnedNode.transform.position) < minimumDistanceToLastNode)
         {
-            int _index = Random.Range(0, lastSpawnedNode.GetComponent<LevelNode>().possibleNextNodes.Length - 1);
-            lastSpawnedNode = Instantiate(lastSpawnedNode.GetComponent<LevelNode>().possibleNextNodes[_index], lastSpawnedNode.GetComponent<LevelNode>().nextNodeLocation);
+            if (lastSpawnedNode.TryGetComponent<LevelNode>(out LevelNode _newLevelNode))
+            {
+                int _index = Random.Range(0, lastSpawnedNode.GetComponent<LevelNode>().possibleNextNodes.Length);
+                Vector3 _newLevelNodePos = lastSpawnedNode.GetComponent<LevelNode>().nextNodeLocation.position;
+                lastSpawnedNode = Instantiate(lastSpawnedNode.GetComponent<LevelNode>().possibleNextNodes[_index], _newLevelNodePos, Quaternion.identity);
+            }
+            {
+                int _index = Random.Range(0, lastSpawnedNode.GetComponentInChildren<LevelNode>().possibleNextNodes.Length);
+                Vector3 _newLevelNodePos = lastSpawnedNode.GetComponentInChildren<LevelNode>().nextNodeLocation.position;
+                lastSpawnedNode = Instantiate(lastSpawnedNode.GetComponentInChildren<LevelNode>().possibleNextNodes[_index], _newLevelNodePos, Quaternion.identity);
+            }
         }
     }
 }
